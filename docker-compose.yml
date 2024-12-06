@@ -4,19 +4,20 @@ networks:
   laravel:
     driver: bridge
 volumes:
-  mariadb_store_vol:
+  mariadb_store_vol: #If you don't define volumes: mariadb_store_vol: MariaDB container will not persist between container restarts
+
 services:
   nginx:
-    build:
-      context: .
-      dockerfile: ./.docker/nginx/Dockerfile
+    image: nginx:stable-alpine 
     container_name: nginx
     restart: always
     ports:
       - "80:80"
     volumes:
-      - ./public:/var/www/html/public:delegated
-      - ./var/log/nginx:/var/log/nginx
+      - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./public:/var/www/html/public:delegated   
+      - ./var/log/nginx:/var/log/nginx             
+       
     depends_on:
       - php
     networks:
