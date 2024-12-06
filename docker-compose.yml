@@ -1,0 +1,65 @@
+version: "3.8"
+
+networks:
+  laravel:
+    driver: bridge
+volumes:
+  mariadb_store_vol:
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./.docker/nginx/Dockerfile
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./public:/var/www/html/public:delegated
+      - ./var/log/nginx:/var/log/nginx
+    depends_on:
+      - php
+    networks:
+      - laravel
+
+  php:
+    build:
+      context: .
+      dockerfile: ./.docker/php/Dockerfile
+      target: php-base
+    container_name: php
+    restart: always
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - laravel
+
+  mysql:
+    image: mariadb:10.3
+    container_name: mysql
+    restart: always
+    tty: true
+    environment:
+      MYSQL_DATABASE: "laravel"
+      MYSQL_USER: "laravel"
+      MYSQL_PASSWORD: "laravel"
+      MYSQL_ROOT_PASSWORD: "laravel"
+    volumes:
+      - mariadb_store_vol:/var/lib/mysql
+
+    networks:
+      - laravel
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 2000000000000
+    depends_on:
+      - mysql
+    ports:
+      - "81:80"
+    networks:
+      - laravel
