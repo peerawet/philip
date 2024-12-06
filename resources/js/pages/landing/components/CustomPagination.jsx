@@ -1,4 +1,10 @@
-export const CustomPagination = ({ rowsPerPage, rowCount, currentPage, onChangePage, handlePerRowsChange }) => {
+export const CustomPagination = ({
+    rowsPerPage,
+    rowCount,
+    currentPage,
+    onChangePage,
+    handlePerRowsChange,
+}) => {
     // Calculate total pages
     const totalPages = Math.ceil(rowCount / rowsPerPage);
 
@@ -13,130 +19,180 @@ export const CustomPagination = ({ rowsPerPage, rowCount, currentPage, onChangeP
     }
 
     return (
-        <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: '15px',
-            fontFamily: 'Arial, sans-serif',
-            fontSize: '14px',
-            color: '#333',
-            padding: '10px',
-            backgroundColor: '#f9f9f9',
-            borderRadius: '5px',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-        }}>
-            {/* First Page Button */}
-            <button
-                onClick={() => onChangePage(1)}
-                disabled={currentPage === 1}
+        <div
+            style={{
+                padding: "10px",
+                backgroundColor: "#f9f9f9",
+                borderRadius: "5px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            }}
+        >
+            <div
                 style={{
-                    marginRight: '10px',
-                    padding: '6px 12px',
-                    backgroundColor: currentPage === 1 ? '#ddd' : '#007bff',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "15px",
+                    fontFamily: "Arial, sans-serif",
+                    fontSize: "14px",
+                    color: "#333",
+                    
+                    gap: "24px",
                 }}
             >
-                First
-            </button>
-
-            {/* Previous Page Button */}
-            <button
-                onClick={() => onChangePage(currentPage - 1)}
-                disabled={currentPage === 1}
-                style={{
-                    marginRight: '10px',
-                    padding: '6px 12px',
-                    backgroundColor: currentPage === 1 ? '#ddd' : '#007bff',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                }}
-            >
-                Prev
-            </button>
-
-            {/* Page Numbers */}
-            <div style={{
-                marginRight: '10px',
-                display: 'flex',
-                alignItems: 'center',
-            }}>
-                {pageNumbers.map((pageNumber) => (
-                    <button
-                        key={pageNumber}
-                        onClick={() => onChangePage(pageNumber)}
-                        style={{
-                            padding: '6px 12px',
-                            margin: '0 3px',
-                            backgroundColor: pageNumber === currentPage ? '#007bff' : '#f1f1f1',
-                            color: pageNumber === currentPage ? '#fff' : '#007bff',
-                            border: '1px solid #ddd',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                        }}
-                    >
-                        {pageNumber}
-                    </button>
-                ))}
+                {/* Rows Per Page Selector */}
+                <select
+                    value={rowsPerPage}
+                    onChange={(e) =>
+                        handlePerRowsChange(Number(e.target.value))
+                    }
+                    style={{
+                        marginLeft: "10px",
+                        padding: "6px 12px",
+                        fontSize: "14px",
+                        borderRadius: "4px",
+                        border: "1px solid #ccc",
+                    }}
+                >
+                    {[10, 25, 50, 100].map((option) => (
+                        <option key={option} value={option}>
+                            {option} rows per page
+                        </option>
+                    ))}
+                </select>
+                {/* Row Range Display */}
+                <span
+                    style={{
+                        marginRight: "10px",
+                        fontWeight: "bold",
+                        color: "#007bff",
+                    }}
+                >
+                    Showing {startRow} to {endRow} of {rowCount} entries
+                </span>
             </div>
 
-            {/* Next Page Button */}
-            <button
-                onClick={() => onChangePage(currentPage + 1)}
-                disabled={currentPage === totalPages}
+            <div
                 style={{
-                    marginRight: '10px',
-                    padding: '6px 12px',
-                    backgroundColor: currentPage === totalPages ? '#ddd' : '#007bff',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "15px",
+                    fontFamily: "Arial, sans-serif",
+                    fontSize: "14px",
+                    color: "#333",
+                    
                 }}
             >
-                Next
-            </button>
+                {/* First Page Button */}
+                <button
+                    onClick={() => onChangePage(1)}
+                    disabled={currentPage === 1}
+                    style={{
+                        marginRight: "10px",
+                        padding: "6px 12px",
+                        backgroundColor: currentPage === 1 ? "#ddd" : "#007bff",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                    }}
+                >
+                    First
+                </button>
 
-            {/* Last Page Button */}
-            <button
-                onClick={() => onChangePage(totalPages)}
-                disabled={currentPage === totalPages}
-                style={{
-                    marginRight: '10px',
-                    padding: '6px 12px',
-                    backgroundColor: currentPage === totalPages ? '#ddd' : '#007bff',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                }}
-            >
-                Last
-            </button>
+                {/* Previous Page Button */}
+                <button
+                    onClick={() => onChangePage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    style={{
+                        marginRight: "10px",
+                        padding: "6px 12px",
+                        backgroundColor: currentPage === 1 ? "#ddd" : "#007bff",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                    }}
+                >
+                    Prev
+                </button>
 
-            {/* Rows Per Page Selector */}
-            <select
-                value={rowsPerPage}
-                onChange={(e) => handlePerRowsChange(Number(e.target.value))}
-                style={{
-                    marginLeft: '10px',
-                    padding: '6px 12px',
-                    fontSize: '14px',
-                    borderRadius: '4px',
-                    border: '1px solid #ccc',
-                }}
-            >
-                {[10, 25, 50, 100].map((option) => (
-                    <option key={option} value={option}>
-                        {option} rows per page
-                    </option>
-                ))}
-            </select>
+                {/* Page Numbers */}
+                <div
+                    style={{
+                        marginRight: "10px",
+                        display: "flex",
+                        alignItems: "center",
+                    }}
+                >
+                    {pageNumbers.map((pageNumber) => (
+                        <button
+                            key={pageNumber}
+                            onClick={() => onChangePage(pageNumber)}
+                            style={{
+                                padding: "6px 12px",
+                                margin: "0 3px",
+                                backgroundColor:
+                                    pageNumber === currentPage
+                                        ? "#007bff"
+                                        : "#f1f1f1",
+                                color:
+                                    pageNumber === currentPage
+                                        ? "#fff"
+                                        : "#007bff",
+                                border: "1px solid #ddd",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                            }}
+                        >
+                            {pageNumber}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Next Page Button */}
+                <button
+                    onClick={() => onChangePage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    style={{
+                        marginRight: "10px",
+                        padding: "6px 12px",
+                        backgroundColor:
+                            currentPage === totalPages ? "#ddd" : "#007bff",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor:
+                            currentPage === totalPages
+                                ? "not-allowed"
+                                : "pointer",
+                    }}
+                >
+                    Next
+                </button>
+
+                {/* Last Page Button */}
+                <button
+                    onClick={() => onChangePage(totalPages)}
+                    disabled={currentPage === totalPages}
+                    style={{
+                        marginRight: "10px",
+                        padding: "6px 12px",
+                        backgroundColor:
+                            currentPage === totalPages ? "#ddd" : "#007bff",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor:
+                            currentPage === totalPages
+                                ? "not-allowed"
+                                : "pointer",
+                    }}
+                >
+                    Last
+                </button>
+            </div>
         </div>
     );
 };
